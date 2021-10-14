@@ -1,37 +1,51 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
+import UserContext from "./UserContext";
+
 import "./AuthForm.css";
 
 const SignInForm = () => {
+  const { setCurrentUser, setToken } = useContext(UserContext);
   const history = useHistory();
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [formErrors, setFormErrors] = useState([]);
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formErrors, setFormErrors] = useState("");
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setFormData((item) => ({ ...item, [name]: value }));
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
-    let result = {
-      data: formData,
-      success: true,
-      errors: ["now we have a problem"],
-    };
-    debugger;
-    if (result.success) {
-      history.push("/authed");
-    } else {
-      setFormErrors(result.errors);
+    try {
+      let result = await axios.post(
+        "http://127.0.0.1:3001/auth/get-token",
+        formData
+      );
+      // let result = {
+      //   data: formData,
+      //   success: true,
+      //   errors: ["now we have a problem"],
+      // };
+
+      if (result.data.token) {
+        setCurrentUser(result.data.user);
+        setToken(result.data.token);
+        history.push("/authed");
+      } else {
+        setFormErrors(result.errors);
+      }
+    } catch (e) {
+      setFormErrors(e.response.data.error.message);
     }
   };
 
   return (
     <div className="p-3">
-      {formErrors.length ? (
+      {formErrors && formErrors.length ? (
         <div class="alert alert-primary" role="alert">
-          {`fix yo'self...${formErrors}`}
+          {`${formErrors}`}
         </div>
       ) : null}
       <h1 className="d-flex justify-content-center">signin.</h1>
@@ -40,16 +54,17 @@ const SignInForm = () => {
         <div className="card-body">
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label htmlFor="email" className="form-label">
+              <label htmlFor="username" className="form-label">
                 Email address
               </label>
               <input
                 type="email"
                 className="form-control"
                 autoComplete="username"
-                id="email"
-                name="email"
+                id="username"
+                name="username"
                 aria-describedby="emailHelp"
+                onChange={handleChange}
               />
               <div id="establishTrust" className="form-text">
                 We'll never share your email with anyone else.

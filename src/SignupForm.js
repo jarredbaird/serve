@@ -19,7 +19,6 @@ const SignOutForm = () => {
       success: true,
       errors: ["now we have a problem"],
     };
-    debugger;
     if (result.success) {
       history.push("/authed");
     } else {
