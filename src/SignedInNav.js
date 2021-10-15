@@ -1,16 +1,23 @@
-import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import UserContext from "./UserContext";
 
 const SignedInNav = () => {
+  const { setCurrentUser, setToken } = useContext(UserContext);
   return (
     <>
       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
         <li className="nav-item">
-          <NavLink
+          <Link
             className="nav-link active"
             aria-current="page"
-            to="/signout">
+            to="/signin"
+            onClick={() => {
+              setCurrentUser(null);
+              setToken(null);
+            }}>
             signout.
-          </NavLink>
+          </Link>
         </li>
       </ul>
       <form className="d-flex">

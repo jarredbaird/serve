@@ -30,7 +30,6 @@ const SignInForm = () => {
       // };
 
       if (result.data.token) {
-        setCurrentUser(result.data.user);
         setToken(result.data.token);
         history.push("/authed");
       } else {
