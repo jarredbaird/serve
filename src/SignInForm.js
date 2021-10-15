@@ -6,7 +6,7 @@ import UserContext from "./UserContext";
 import "./AuthForm.css";
 
 const SignInForm = () => {
-  const { setCurrentUser, setToken } = useContext(UserContext);
+  const { setToken } = useContext(UserContext);
   const history = useHistory();
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [formErrors, setFormErrors] = useState("");
@@ -54,7 +54,7 @@ const SignInForm = () => {
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="username" className="form-label">
-                Email address
+                email address.
               </label>
               <input
                 type="email"
@@ -71,7 +71,7 @@ const SignInForm = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="password" className="form-label">
-                Password
+                password.
               </label>
               <input
                 type="password"
