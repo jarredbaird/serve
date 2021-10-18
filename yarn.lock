@@ -1704,6 +1704,13 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
+"@toast-ui/react-calendar@^1.0.5":
+  "integrity" "sha512-eG4BtdF5LvIHEyTlwZbWnLlL+GScLiWktRNV0A3L73oBFfJ5BQUNC/TRR13wfaJjXIvWYdV80ZYD75q7ilWznw=="
+  "resolved" "https://registry.npmjs.org/@toast-ui/react-calendar/-/react-calendar-1.0.5.tgz"
+  "version" "1.0.5"
+  dependencies:
+    "tui-calendar" "^1.12.5"
+
 "@types/anymatch@*":
   "integrity" "sha512-/+CRPXpBDpo2RK9C68N3b2cOvO0Cf5B9aPijHsoDQTHivnGSObdOF2BRQOYjojWTDy6nQvMjmqRXIxH55VjxxA=="
   "resolved" "https://registry.npmjs.org/@types/anymatch/-/anymatch-1.3.1.tgz"
@@ -2179,11 +2186,6 @@
     "@webassemblyjs/ast" "1.9.0"
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
-
-"@wojtekmaj/date-utils@^1.0.2":
-  "integrity" "sha512-1VPkkTBk07gMR1fjpBtse4G+oJqpmE+0gUFB0dg3VIL7qJmUVaBoD/vlzMm/jNeOPfvlmerl1lpnsZyBUFIRuw=="
-  "resolved" "https://registry.npmjs.org/@wojtekmaj/date-utils/-/date-utils-1.0.3.tgz"
-  "version" "1.0.3"
 
 "@xtuc/ieee754@^1.2.0":
   "integrity" "sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA=="
@@ -4424,6 +4426,11 @@
   dependencies:
     "domelementtype" "1"
 
+"dompurify@^2.3.1":
+  "integrity" "sha512-dqnqRkPMAjOZE0FogZ+ceJNM2dZ3V/yNOuFB7+39qpO93hHhfRpHw3heYQC7DPK9FqbQTfBKUJhiSfz4MvXYwg=="
+  "resolved" "https://registry.npmjs.org/dompurify/-/dompurify-2.3.3.tgz"
+  "version" "2.3.3"
+
 "domutils@^1.5.1", "domutils@^1.7.0":
   "integrity" "sha512-Lgd2XcJ/NjEw+7tFvfKxOzCYKZsdct5lczQ2ZaQY8Djz7pfAD3Gbp8ySJWtreII/vDlMVmxwa6pHmdxIYgttDg=="
   "resolved" "https://registry.npmjs.org/domutils/-/domutils-1.7.0.tgz"
@@ -5528,13 +5535,6 @@
   "version" "5.2.0"
   dependencies:
     "pump" "^3.0.0"
-
-"get-user-locale@^1.2.0":
-  "integrity" "sha512-gQo03lP1OArHLKlnoglqrGGl7b04u2EP9Xutmp72cMdtrrSD7ZgIsCsUKZynYWLDkVJW33Cj3pliP7uP0UonHQ=="
-  "resolved" "https://registry.npmjs.org/get-user-locale/-/get-user-locale-1.4.0.tgz"
-  "version" "1.4.0"
-  dependencies:
-    "lodash.once" "^4.1.1"
 
 "get-value@^2.0.3", "get-value@^2.0.6":
   "integrity" "sha1-3BXKHGcjh8p2vTesCjlbogQqLCg="
@@ -7455,7 +7455,7 @@
   "resolved" "https://registry.npmjs.org/lodash.memoize/-/lodash.memoize-4.1.2.tgz"
   "version" "4.1.2"
 
-"lodash.once@^4.0.0", "lodash.once@^4.1.1":
+"lodash.once@^4.0.0":
   "integrity" "sha1-DdOXEhPHxW34gJd9UEyI+0cal6w="
   "resolved" "https://registry.npmjs.org/lodash.once/-/lodash.once-4.1.1.tgz"
   "version" "4.1.1"
@@ -7637,11 +7637,6 @@
     "read-pkg-up" "^1.0.1"
     "redent" "^1.0.0"
     "trim-newlines" "^1.0.0"
-
-"merge-class-names@^1.1.1":
-  "integrity" "sha512-bOl98VzwCGi25Gcn3xKxnR5p/WrhWFQB59MS/aGENcmUc6iSm96yrFDF0XSNurX9qN4LbJm0R9kfvsQ17i8zCw=="
-  "resolved" "https://registry.npmjs.org/merge-class-names/-/merge-class-names-1.4.2.tgz"
-  "version" "1.4.2"
 
 "merge-descriptors@1.0.1":
   "integrity" "sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E="
@@ -9496,7 +9491,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@^15.0.0", "prop-types@^15.6.0", "prop-types@^15.6.2", "prop-types@^15.7.2":
+"prop-types@^15.0.0", "prop-types@^15.6.2", "prop-types@^15.7.2":
   "integrity" "sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.7.2.tgz"
   "version" "15.7.2"
@@ -9672,16 +9667,6 @@
     "regenerator-runtime" "^0.13.7"
     "whatwg-fetch" "^3.4.1"
 
-"react-calendar@^3.4.0":
-  "integrity" "sha512-ykbvXASArQQ8KZlCEXEdE+w+KFGSj7kDpdTRzbLVJeN26oUIu+EFavFDAqg4G//zTO0tSq5SMfqAa6fjrdGQjQ=="
-  "resolved" "https://registry.npmjs.org/react-calendar/-/react-calendar-3.4.0.tgz"
-  "version" "3.4.0"
-  dependencies:
-    "@wojtekmaj/date-utils" "^1.0.2"
-    "get-user-locale" "^1.2.0"
-    "merge-class-names" "^1.1.1"
-    "prop-types" "^15.6.0"
-
 "react-dev-utils@^11.0.3":
   "integrity" "sha512-dx0LvIGHcOPtKbeiSUM4jqpBl3TcY7CDjZdfOIcKeznE7BWr9dg0iPG90G5yfVQ+p/rGNMXdbfStvzQZEVEi4A=="
   "resolved" "https://registry.npmjs.org/react-dev-utils/-/react-dev-utils-11.0.4.tgz"
@@ -9712,7 +9697,7 @@
     "strip-ansi" "6.0.0"
     "text-table" "0.2.0"
 
-"react-dom@*", "react-dom@^16.3.0 || ^17.0.0-0", "react-dom@^17.0.2":
+"react-dom@*", "react-dom@^17.0.2":
   "integrity" "sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-17.0.2.tgz"
   "version" "17.0.2"
@@ -9846,7 +9831,7 @@
   optionalDependencies:
     "fsevents" "^2.1.3"
 
-"react@*", "react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@^16.3.0 || ^17.0.0-0", "react@^17.0.2", "react@>= 16", "react@>=15", "react@17.0.2":
+"react@*", "react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@^16.3.0", "react@^17.0.2", "react@>= 16", "react@>=15", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"
@@ -11565,6 +11550,33 @@
   "integrity" "sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY="
   "resolved" "https://registry.npmjs.org/tty-browserify/-/tty-browserify-0.0.0.tgz"
   "version" "0.0.0"
+
+"tui-calendar@^1.12.5", "tui-calendar@^1.14.1":
+  "integrity" "sha512-FK4QBc1X3iXemmFFAPMdC9b3/uQ7Lf1U1SY34EtDuov4ruUiQWE0qV3BzmM61gDzEz3tCzklnUIhis3loVHdGw=="
+  "resolved" "https://registry.npmjs.org/tui-calendar/-/tui-calendar-1.14.1.tgz"
+  "version" "1.14.1"
+  dependencies:
+    "dompurify" "^2.3.1"
+    "tui-code-snippet" "^1.5.0"
+    "tui-date-picker" "^4.3.0"
+    "tui-time-picker" "^2.1.4"
+
+"tui-code-snippet@^1.5.0":
+  "integrity" "sha512-6UqTlQaaC1KLcmC0HAoq5dtl1G4Fib+R+NC7pmaV7kiIlZ7JqKhUmnOoGRcreAyzd81UTK/vCvhrw9QJskpCFQ=="
+  "resolved" "https://registry.npmjs.org/tui-code-snippet/-/tui-code-snippet-1.5.2.tgz"
+  "version" "1.5.2"
+
+"tui-date-picker@^4.3.0":
+  "integrity" "sha512-LMXdiM6cXau4NVw3/1T4ltaLk2PZAn2RbRtVUPN30Zg905t9Ab+OJ8EgeEgLVW9osvLuO9raW63l7YwiT50v6Q=="
+  "resolved" "https://registry.npmjs.org/tui-date-picker/-/tui-date-picker-4.3.1.tgz"
+  "version" "4.3.1"
+  dependencies:
+    "tui-time-picker" "^2.1.3"
+
+"tui-time-picker@^2.1.3", "tui-time-picker@^2.1.4":
+  "integrity" "sha512-gqCasZgniE8slP83h3pUnSXyVWBBi7T+9gi0+RxB6ld6l2hgPuVax8o82ysz02pvQ5bEkfPP3sG1caeU+iH0Sw=="
+  "resolved" "https://registry.npmjs.org/tui-time-picker/-/tui-time-picker-2.1.4.tgz"
+  "version" "2.1.4"
 
 "tunnel-agent@^0.6.0":
   "integrity" "sha1-J6XeoGs2sEoKmWZ3SykIaPD8QP0="
