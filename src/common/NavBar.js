@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useContext } from "react";
-import UserContext from "./UserContext";
+import { UserContext } from "../contexts/UserContext";
 import SignedInNav from "./SignedInNav";
 import SignedOutNav from "./SignedOutNav";
 

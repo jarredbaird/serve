@@ -1,9 +1,9 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import Authed from "./Authed";
-import CreateEventTemplateForm from "./CreateEventTemplateForm";
-import SignInForm from "./SignInForm.js";
-import SignupForm from "./SignupForm.js";
+import Authed from "../Authed";
+import CreateEventTemplateForm from "../events/CreateEventTemplateForm";
+import SignInForm from "../account/SignInForm.js";
+import SignupForm from "../account/SignUpForm.js";
 
 function Routes() {
   return (

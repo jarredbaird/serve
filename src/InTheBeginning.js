@@ -1,5 +1,5 @@
-import NavBar from "./NavBar.js";
-import Routes from "./Routes.js";
+import NavBar from "./common/NavBar";
+import Routes from "./routes/Routes";
 
 const InTheBeginning = () => {
   return (

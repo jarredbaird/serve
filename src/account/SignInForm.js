@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import UserContext from "./UserContext";
+import { UserContext } from "../contexts/UserContext";
 
 import "./AuthForm.css";
 
@@ -43,7 +43,7 @@ const SignInForm = () => {
   return (
     <div className="p-3">
       {formErrors && formErrors.length ? (
-        <div class="alert alert-primary" role="alert">
+        <div className="alert alert-primary" role="alert">
           {`${formErrors}`}
         </div>
       ) : null}

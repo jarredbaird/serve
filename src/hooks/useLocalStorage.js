@@ -23,7 +23,6 @@ function useLocalStorage(key, firstValue = null) {
   useEffect(
     function setKeyInLocalStorage() {
       console.debug("hooks useLocalStorage useEffect", "item=", item);
-      debugger;
 
       if (item === null) {
         localStorage.removeItem(key);
