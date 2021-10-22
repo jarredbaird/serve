@@ -31,7 +31,7 @@ const SignInForm = () => {
 
       if (result.data.token) {
         setToken(result.data.token);
-        history.push("/authed");
+        history.push("/home");
       } else {
         setFormErrors(result.errors);
       }
@@ -41,7 +41,7 @@ const SignInForm = () => {
   };
 
   return (
-    <div className="p-3">
+    <div className="container p-3">
       {formErrors && formErrors.length ? (
         <div className="alert alert-primary" role="alert">
           {`${formErrors}`}

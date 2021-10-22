@@ -1,13 +1,14 @@
 import NavBar from "./common/NavBar";
+import { DataProvider } from "./contexts/DataContext";
 import Routes from "./routes/Routes";
 
 const InTheBeginning = () => {
   return (
     <div>
       <NavBar />
-      <div className="container">
+      <DataProvider>
         <Routes />
-      </div>
+      </DataProvider>
     </div>
   );
 };

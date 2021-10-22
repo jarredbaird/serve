@@ -1,43 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import "../account/AuthForm.css";
+import { DataContext } from "../contexts/DataContext";
 
 const CreateEventTemplateForm = () => {
   const history = useHistory();
   const [formData, setFormData] = useState({});
   const [formErrors, setFormErrors] = useState("");
-  const [ministries, setMinistries] = useState([]);
-  const [roles, setRoles] = useState([]);
-
-  useEffect(function loadMinistriesAndRoles() {
-    async function getAllMinistriesAndRoles() {
-      try {
-        let allMinistries = await axios.get(
-          `http://127.0.0.1:3001/ministries/`
-        );
-        setMinistries(
-          allMinistries.data.map((ministry) => {
-            return { ...ministry, selected: false };
-          })
-        );
-        let allRoles = await axios.get(`http://127.0.0.1:3001/roles/`);
-        setRoles(
-          allRoles.data.map((role) => {
-            return { ...role, shown: false, selected: false };
-          })
-        );
-      } catch (e) {
-        return <div>out of luck</div>;
-      }
-    }
-    getAllMinistriesAndRoles();
-  }, []);
+  const {
+    ministries,
+    setMinistries,
+    roles,
+    setRoles,
+    eventTemplates,
+    setEventTemplates,
+  } = useContext(DataContext);
 
   const showRole = (mId) => {
     setRoles(
       roles.map((role) => {
-        if (role.mId == mId) {
+        if (role.mId === mId) {
           role.shown = !role.shown;
         }
         if (!role.shown) role.selected = false;
@@ -48,12 +31,15 @@ const CreateEventTemplateForm = () => {
 
   const handleChange = (evt) => {
     const { name } = evt.target;
-    const value = evt.target.value;
+    const value =
+      name === "rTitle" || name === "mName"
+        ? parseInt(evt.target.value)
+        : evt.target.value;
     if (name === "mName") {
       showRole(value);
       setMinistries(
         ministries.map((ministry) => {
-          if (ministry.mId == value) {
+          if (ministry.mId === value) {
             ministry.selected = !ministry.selected;
           }
           return ministry;
@@ -62,7 +48,7 @@ const CreateEventTemplateForm = () => {
     } else if (name === "rTitle") {
       setRoles(
         roles.map((role) => {
-          if (role.rId == value) {
+          if (role.rId === value) {
             role.selected = !role.selected;
           }
           return role;
@@ -84,7 +70,8 @@ const CreateEventTemplateForm = () => {
         selectedRoles,
       });
       if (result.data) {
-        history.push("/authed");
+        setEventTemplates([...eventTemplates, result.data]);
+        history.push("/home");
       } else {
         setFormErrors(result.errors);
       }
@@ -94,7 +81,7 @@ const CreateEventTemplateForm = () => {
   };
 
   return (
-    <div className="p-3">
+    <div>
       {formErrors && formErrors.length ? (
         <div className="alert alert-primary" role="alert">
           {`${formErrors}`}
@@ -103,13 +90,13 @@ const CreateEventTemplateForm = () => {
       <h1 className="d-flex justify-content-center">
         create new event template.
       </h1>
-      <div className="card mx-auto m-3" style={{ width: "60rem" }}>
+      <div className="card mx-auto m-3" style={{ width: "50rem" }}>
         <div className="card-body">
           <h4 className="d-flex justify-content-center">
             you are here to create an event which will likely happen again in
             the future.
           </h4>
-          <h6>
+          <h6 className="d-flex justify-content-center">
             (e.g. kid's church every sunday, worship practice/serve every
             sunday, etc)
           </h6>
@@ -123,7 +110,7 @@ const CreateEventTemplateForm = () => {
                 id="etName"
                 name="etName"
                 aria-describedby="etName"
-                placeholder="servant@servants.com"
+                placeholder="God Event"
                 onChange={handleChange}
               />
               <label htmlFor="etName">event template name.</label>
@@ -135,7 +122,7 @@ const CreateEventTemplateForm = () => {
                 autoComplete="off"
                 className="form-control"
                 id="etDescr"
-                placeholder="servant@servants.com"
+                placeholder="The Godliest Event Ever!"
                 name="etDescr"
                 onChange={handleChange}
               />
@@ -143,10 +130,10 @@ const CreateEventTemplateForm = () => {
             </div>
             <span>which ministries are needed at this event?</span>
             <br />
-            <div className="btn-group mb-3">
+            <div className="btn-group">
               {ministries.map((ministry) => {
                 return (
-                  <div key={ministry.mId}>
+                  <div key={ministry.mId} className="m-1">
                     <input
                       type="checkbox"
                       className="btn-check"
@@ -166,12 +153,13 @@ const CreateEventTemplateForm = () => {
               })}
             </div>
             <br />
+            <br />
             <span> which roles are needed at this event? </span>
             <br />
             {roles.map((role) => {
               if (role.shown)
                 return (
-                  <span key={role.rId}>
+                  <span key={role.rId} className="m-1">
                     <input
                       type="checkbox"
                       className="btn-check"
@@ -185,10 +173,15 @@ const CreateEventTemplateForm = () => {
                       className="btn btn-outline-primary"
                       htmlFor={`r${role.rId}`}>
                       {role.rTitle}
+                      <span style={{ fontSize: "0.7rem" }}>
+                        {" "}
+                        / {role.mName}{" "}
+                      </span>
                     </label>
                   </span>
                 );
             })}
+            <br />
             <br />
             <button
               type="submit"
@@ -196,6 +189,11 @@ const CreateEventTemplateForm = () => {
               onSubmit={handleSubmit}>
               create event template.
             </button>
+            <Link to="/authed">
+              <button type="submit" className="btn btn-info m-1">
+                cancel.
+              </button>
+            </Link>
           </form>
         </div>
       </div>

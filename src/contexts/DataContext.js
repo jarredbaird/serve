@@ -9,33 +9,49 @@ const DataContext = React.createContext();
 const { Provider } = DataContext;
 
 const DataProvider = (props) => {
-  const [ministries, setMinistries] = useLocalStorage(null);
-  const [eventTemplates, setEventTemplates] = useState(null);
+  const [ministries, setMinistries] = useState([]);
+  const [eventTemplates, setEventTemplates] = useState([]);
+  const [roles, setRoles] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  useEffect(
-    function loadUserInfo() {
-      async function getCurrentUser() {
-        if (token) {
-          try {
-            let { username } = jwt.decode(token);
-            let currentUser = axios.get(
-              `http://127.0.0.1:3001/users/${username}`
-            );
-            setCurrentUser(currentUser);
-          } catch (e) {
-            setCurrentUser(null);
-            console.log(e);
-          }
-        }
+  useEffect(function loadMinistriesEventTemplatesAndRoles() {
+    async function getAllMinistriesEventTemplatesAndRoles() {
+      try {
+        let allMinistries = await axios.get(
+          `http://127.0.0.1:3001/ministries/`
+        );
+        setMinistries(
+          allMinistries.data.map((ministry) => {
+            return { ...ministry, selected: false };
+          })
+        );
+        let allRoles = await axios.get(`http://127.0.0.1:3001/roles/`);
+        setRoles(
+          allRoles.data.map((role) => {
+            return { ...role, shown: false, selected: false };
+          })
+        );
+        let allEventTemplates = await axios.get(
+          `http://127.0.0.1:3001/event-templates`
+        );
+        setEventTemplates(allEventTemplates.data);
+      } catch (e) {
+        return <div>out of luck</div>;
       }
-      getCurrentUser();
-    },
-    [token]
-  );
+    }
+    getAllMinistriesEventTemplatesAndRoles();
+  }, []);
 
   return (
     <Provider
-      value={{ ministries, setMinistries, eventTemplates, setEventTemplates }}>
+      value={{
+        ministries,
+        setMinistries,
+        roles,
+        setRoles,
+        eventTemplates,
+        setEventTemplates,
+      }}>
       {props.children}
     </Provider>
   );

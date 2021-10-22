@@ -11,6 +11,22 @@ const SignedInNav = () => {
           <Link
             className="nav-link active"
             aria-current="page"
+            to="/event-templates/create">
+            set up event template.
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link
+            className="nav-link"
+            aria-current="page"
+            to="/event-templates/create">
+            schedule event template.
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link
+            className="nav-link"
+            aria-current="page"
             to="/signin"
             onClick={() => {
               setCurrentUser(null);

@@ -10,7 +10,7 @@ const { Provider } = UserContext;
 
 const UserProvider = (props) => {
   const [token, setToken] = useLocalStorage("serve-token");
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(
     function loadUserInfo() {
@@ -18,10 +18,10 @@ const UserProvider = (props) => {
         if (token) {
           try {
             let { username } = jwt.decode(token);
-            let currentUser = axios.get(
+            let currentUser = await axios.get(
               `http://127.0.0.1:3001/users/${username}`
             );
-            setCurrentUser(currentUser);
+            setCurrentUser(currentUser.data);
           } catch (e) {
             setCurrentUser(null);
             console.log(e);

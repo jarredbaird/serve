@@ -147,7 +147,7 @@ const TheCalendar = ({ view, target }) => {
       <Calendar
         ref={cal}
         height="1000px"
-        view="month"
+        view="week"
         useCreationPopup={true}
         useDetailPopup={true}
         template={templates}
