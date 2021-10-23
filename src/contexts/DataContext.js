@@ -35,6 +35,12 @@ const DataProvider = (props) => {
           `http://127.0.0.1:3001/event-templates`
         );
         setEventTemplates(allEventTemplates.data);
+        let allUsers = await axios.get(`http://127.0.0.1:3001/users/`);
+        setUsers(
+          allUsers.data.map((user) => {
+            return { ...user, selected: false };
+          })
+        );
       } catch (e) {
         return <div>out of luck</div>;
       }
@@ -51,6 +57,8 @@ const DataProvider = (props) => {
         setRoles,
         eventTemplates,
         setEventTemplates,
+        users,
+        setUsers,
       }}>
       {props.children}
     </Provider>
