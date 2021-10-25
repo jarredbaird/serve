@@ -7,16 +7,14 @@ import SignInForm from "../account/SignInForm.js";
 import SignupForm from "../account/SignUpForm.js";
 import Home from "../common/Home.js";
 import PrivateRoute from "./PrivateRoute";
+import QualifyUserForm from "../users/QualifyUserForm";
 
 function Routes() {
   return (
     <Switch>
-      <Route exact path="/signin">
-        <SignInForm />
-      </Route>
-      <Route exact path="/signup">
-        <SignupForm />
-      </Route>
+      <PrivateRoute exact path="/users/qualify">
+        <QualifyUserForm />
+      </PrivateRoute>
       <PrivateRoute exact path="/authed">
         <Authed />
       </PrivateRoute>
@@ -29,6 +27,12 @@ function Routes() {
       <PrivateRoute exact path="/home">
         <Home />
       </PrivateRoute>
+      <Route exact path="/signin">
+        <SignInForm />
+      </Route>
+      <Route exact path="/signup">
+        <SignupForm />
+      </Route>
       <Redirect to="/home" />
     </Switch>
   );

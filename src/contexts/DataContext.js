@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import jwt from "jsonwebtoken";
-import useLocalStorage from "../hooks/useLocalStorage";
 
-/** Context: provides currentUser object and setter for it throughout app. */
+/** Context: provides allll the data for the app. */
 
 const DataContext = React.createContext();
 const { Provider } = DataContext;
@@ -38,7 +36,7 @@ const DataProvider = (props) => {
         let allUsers = await axios.get(`http://127.0.0.1:3001/users/`);
         setUsers(
           allUsers.data.map((user) => {
-            return { ...user, selected: false };
+            return { ...user, selected: false, shown: true };
           })
         );
       } catch (e) {

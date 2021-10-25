@@ -8,16 +8,36 @@ const QualifyUserForm = () => {
   const history = useHistory();
   const [formData, setFormData] = useState({});
   const [formErrors, setFormErrors] = useState("");
-  const {
-    users,
-    setUsers,
-    ministries,
-    setMinistries,
-    roles,
-    setRoles,
-    eventTemplates,
-    setEventTemplates,
-  } = useContext(DataContext);
+  const { users, setUsers, ministries, setMinistries, roles, setRoles } =
+    useContext(DataContext);
+  const [selectedUser, setSelectedUser] = useState();
+
+  const displayUsers = (uId, deSelect) => {
+    if (deSelect) {
+      setUsers(
+        users.map((user) => {
+          user.shown = true;
+          user.selected = false;
+          return user;
+        })
+      );
+      setSelectedUser(null);
+    } else {
+      setUsers(
+        users.map((user) => {
+          if (user.uId === uId) {
+            user.shown = true;
+            user.selected = true;
+          } else {
+            user.shown = false;
+            user.selected = false;
+          }
+          return user;
+        })
+      );
+      setSelectedUser(uId);
+    }
+  };
 
   const showRole = (mId) => {
     setRoles(
@@ -34,9 +54,15 @@ const QualifyUserForm = () => {
   const handleChange = (evt) => {
     const { name } = evt.target;
     const value =
-      name === "rTitle" || name === "mName"
+      name === "rTitle" || name === "mName" || name === "username"
         ? parseInt(evt.target.value)
         : evt.target.value;
+    if (name === "username") {
+      displayUsers(
+        value,
+        users.some((user) => user.selected)
+      );
+    }
     if (name === "mName") {
       showRole(value);
       setMinistries(
@@ -67,12 +93,22 @@ const QualifyUserForm = () => {
       return role.selected;
     });
     try {
-      let result = await axios.post("http://127.0.0.1:3001/event-templates/", {
-        ...formData,
-        selectedRoles,
-      });
+      let result = await axios.post(
+        `http://127.0.0.1:3001/users/qualify/${selectedUser}`,
+        selectedRoles
+      );
+      setRoles(
+        roles.map((role) => {
+          return { ...role, selected: false, shown: false };
+        })
+      );
       if (result.data) {
-        setEventTemplates([...eventTemplates, result.data]);
+        let allUsers = await axios.get(`http://127.0.0.1:3001/users/`);
+        setUsers(
+          allUsers.data.map((user) => {
+            return { ...user, selected: false, shown: true };
+          })
+        );
         history.push("/home");
       } else {
         setFormErrors(result.errors);
@@ -80,6 +116,72 @@ const QualifyUserForm = () => {
     } catch (e) {
       setFormErrors(e.response.data.error.message);
     }
+  };
+
+  const ministriesAndRoles = () => {
+    return (
+      <>
+        {" "}
+        <span>which ministries are they qualified for?</span>
+        <br />
+        <div className="btn-group">
+          {ministries.map((ministry) => {
+            return (
+              <div key={ministry.mId} className="m-1">
+                <input
+                  type="checkbox"
+                  className="btn-check"
+                  name="mName"
+                  id={`m${ministry.mId}`}
+                  autocomplete="off"
+                  checked={ministry.selected}
+                  value={`${ministry.mId}`}
+                  onChange={handleChange}></input>
+                <label
+                  className="btn btn-outline-primary"
+                  htmlFor={`m${ministry.mId}`}>
+                  {ministry.mName}
+                </label>
+              </div>
+            );
+          })}
+        </div>
+        <br />
+        <br />
+        <span> which specific roles are they qualified for? </span>
+        <br />
+        {roles.map((role) => {
+          if (role.shown)
+            return (
+              <span key={role.rId} className="m-1">
+                <input
+                  type="checkbox"
+                  className="btn-check"
+                  name="rTitle"
+                  id={`r${role.rId}`}
+                  autocomplete="off"
+                  checked={role.selected}
+                  value={`${role.rId}`}
+                  onChange={handleChange}></input>
+                <label
+                  className="btn btn-outline-primary"
+                  htmlFor={`r${role.rId}`}>
+                  {role.rTitle}
+                  <span style={{ fontSize: "0.7rem" }}> / {role.mName} </span>
+                </label>
+              </span>
+            );
+        })}
+        <br />
+        <br />
+        <button
+          type="submit"
+          className="btn btn-success"
+          onSubmit={handleSubmit}>
+          certify! 🎉.
+        </button>
+      </>
+    );
   };
 
   return (
@@ -90,7 +192,7 @@ const QualifyUserForm = () => {
         </div>
       ) : null}
       <h1 className="d-flex justify-content-center">
-        qualify user volunteer roles.
+        certify a volunteer for roles.
       </h1>
       <div className="card mx-auto m-3" style={{ width: "50rem" }}>
         <div className="card-body">
@@ -102,103 +204,36 @@ const QualifyUserForm = () => {
             machine. you would add the "barista master" role to his profile)
           </h6>
           <form onSubmit={handleSubmit}>
-            <span>which user(s) are we talkin' here?</span>
+            <span>which user are we talkin' here?</span>
+            <br />
             {users.map((user) => {
-              return (
-                <span key={user.rId} className="m-1">
-                  <input
-                    type="checkbox"
-                    className="btn-check"
-                    name="username"
-                    id={`u${user.u_id}`}
-                    autocomplete="off"
-                    checked={user.selected}
-                    value={`${role.rId}`}
-                    onChange={handleChange}></input>
-                  <label
-                    className="btn btn-outline-primary"
-                    htmlFor={`r${role.rId}`}>
-                    {role.rTitle}
-                    <span style={{ fontSize: "0.7rem" }}> / {role.mName} </span>
-                  </label>
-                </span>
-              );
-            })}
-            <span>Describe it. Be sure to include all the details</span>
-            <div className="form-floating mb-3">
-              <textarea
-                type="text"
-                autoComplete="off"
-                className="form-control"
-                id="etDescr"
-                placeholder="The Godliest Event Ever!"
-                name="etDescr"
-                onChange={handleChange}
-              />
-              <label htmlFor="etDescr">event template description.</label>
-            </div>
-            <span>which ministries are needed at this event?</span>
-            <br />
-            <div className="btn-group">
-              {ministries.map((ministry) => {
+              if (user.shown)
                 return (
-                  <div key={ministry.mId} className="m-1">
+                  <span key={`u${user.uId}`} className="m-1">
                     <input
                       type="checkbox"
                       className="btn-check"
-                      name="mName"
-                      id={`m${ministry.mId}`}
+                      name="username"
+                      id={`u${user.uId}`}
                       autocomplete="off"
-                      checked={ministry.selected}
-                      value={`${ministry.mId}`}
+                      checked={user.selected}
+                      value={`${user.uId}`}
                       onChange={handleChange}></input>
                     <label
                       className="btn btn-outline-primary"
-                      htmlFor={`m${ministry.mId}`}>
-                      {ministry.mName}
-                    </label>
-                  </div>
-                );
-              })}
-            </div>
-            <br />
-            <br />
-            <span> which roles are needed at this event? </span>
-            <br />
-            {roles.map((role) => {
-              if (role.shown)
-                return (
-                  <span key={role.rId} className="m-1">
-                    <input
-                      type="checkbox"
-                      className="btn-check"
-                      name="rTitle"
-                      id={`r${role.rId}`}
-                      autocomplete="off"
-                      checked={role.selected}
-                      value={`${role.rId}`}
-                      onChange={handleChange}></input>
-                    <label
-                      className="btn btn-outline-primary"
-                      htmlFor={`r${role.rId}`}>
-                      {role.rTitle}
+                      htmlFor={`u${user.uId}`}>
+                      {`${user.first} ${user.last}`}
                       <span style={{ fontSize: "0.7rem" }}>
                         {" "}
-                        / {role.mName}{" "}
+                        / {user.username}{" "}
                       </span>
                     </label>
                   </span>
                 );
             })}
             <br />
-            <br />
-            <button
-              type="submit"
-              className="btn btn-success"
-              onSubmit={handleSubmit}>
-              create event template.
-            </button>
-            <Link to="/authed">
+            {selectedUser ? ministriesAndRoles() : ""}
+            <Link to="/home">
               <button type="submit" className="btn btn-info m-1">
                 cancel.
               </button>

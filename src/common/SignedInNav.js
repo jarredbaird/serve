@@ -19,8 +19,13 @@ const SignedInNav = () => {
           <Link
             className="nav-link"
             aria-current="page"
-            to="/event-templates/create">
+            to="/event-templates/schedule">
             schedule event template.
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" aria-current="page" to="/users/qualify">
+            skill up a user.
           </Link>
         </li>
         <li className="nav-item">

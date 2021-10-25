@@ -69,6 +69,11 @@ const CreateEventTemplateForm = () => {
         ...formData,
         selectedRoles,
       });
+      setRoles(
+        roles.map((role) => {
+          return { ...role, selected: false, shown: false };
+        })
+      );
       if (result.data) {
         setEventTemplates([...eventTemplates, result.data]);
         history.push("/home");
