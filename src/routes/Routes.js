@@ -8,6 +8,7 @@ import SignupForm from "../account/SignUpForm.js";
 import Home from "../common/Home.js";
 import PrivateRoute from "./PrivateRoute";
 import QualifyUserForm from "../users/QualifyUserForm";
+import ScheduleEventTemplateForm from "../events/ScheduleEventTemplateForm";
 
 function Routes() {
   return (
@@ -15,14 +16,17 @@ function Routes() {
       <PrivateRoute exact path="/users/qualify">
         <QualifyUserForm />
       </PrivateRoute>
-      <PrivateRoute exact path="/authed">
-        <Authed />
-      </PrivateRoute>
       <PrivateRoute exact path="/event-templates/create">
         <CreateEventTemplateForm />
       </PrivateRoute>
-      <PrivateRoute exact path="/event-templates">
+      <PrivateRoute exact path="/event-templates/schedule">
+        <ScheduleEventTemplateForm />
+      </PrivateRoute>
+      <PrivateRoute exact path="/event-templates/view">
         <ShowEventTemplates />
+      </PrivateRoute>
+      <PrivateRoute exact path="/authed">
+        <Authed />
       </PrivateRoute>
       <PrivateRoute exact path="/home">
         <Home />

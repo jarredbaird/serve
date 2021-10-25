@@ -9,7 +9,7 @@ const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
-        <NavLink className="navbar-brand fs-2" to="#">
+        <NavLink className="navbar-brand fs-2" to="/home">
           serve.
         </NavLink>
         <button
