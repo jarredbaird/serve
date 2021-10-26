@@ -3,6 +3,8 @@ import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import "../account/AuthForm.css";
 import { DataContext } from "../contexts/DataContext";
+import ministriesAndRoles from "../common/MinistriesAndRoles";
+import MinistriesAndRoles from "../common/MinistriesAndRoles";
 
 const QualifyUserForm = () => {
   const history = useHistory();
@@ -118,72 +120,6 @@ const QualifyUserForm = () => {
     }
   };
 
-  const ministriesAndRoles = () => {
-    return (
-      <>
-        {" "}
-        <span>which ministries are they qualified for?</span>
-        <br />
-        <div className="btn-group">
-          {ministries.map((ministry) => {
-            return (
-              <div key={ministry.mId} className="m-1">
-                <input
-                  type="checkbox"
-                  className="btn-check"
-                  name="mName"
-                  id={`m${ministry.mId}`}
-                  autocomplete="off"
-                  checked={ministry.selected}
-                  value={`${ministry.mId}`}
-                  onChange={handleChange}></input>
-                <label
-                  className="btn btn-outline-primary"
-                  htmlFor={`m${ministry.mId}`}>
-                  {ministry.mName}
-                </label>
-              </div>
-            );
-          })}
-        </div>
-        <br />
-        <br />
-        <span> which specific roles are they qualified for? </span>
-        <br />
-        {roles.map((role) => {
-          if (role.shown)
-            return (
-              <span key={role.rId} className="m-1">
-                <input
-                  type="checkbox"
-                  className="btn-check"
-                  name="rTitle"
-                  id={`r${role.rId}`}
-                  autocomplete="off"
-                  checked={role.selected}
-                  value={`${role.rId}`}
-                  onChange={handleChange}></input>
-                <label
-                  className="btn btn-outline-primary"
-                  htmlFor={`r${role.rId}`}>
-                  {role.rTitle}
-                  <span style={{ fontSize: "0.7rem" }}> / {role.mName} </span>
-                </label>
-              </span>
-            );
-        })}
-        <br />
-        <br />
-        <button
-          type="submit"
-          className="btn btn-success"
-          onSubmit={handleSubmit}>
-          certify! 🎉.
-        </button>
-      </>
-    );
-  };
-
   return (
     <div>
       {formErrors && formErrors.length ? (
@@ -215,7 +151,7 @@ const QualifyUserForm = () => {
                       className="btn-check"
                       name="username"
                       id={`u${user.uId}`}
-                      autocomplete="off"
+                      autoComplete="off"
                       checked={user.selected}
                       value={`${user.uId}`}
                       onChange={handleChange}></input>
@@ -232,7 +168,16 @@ const QualifyUserForm = () => {
                 );
             })}
             <br />
-            {selectedUser ? ministriesAndRoles() : ""}
+            {selectedUser ? (
+              <MinistriesAndRoles
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                ministries={ministries}
+                roles={roles}
+              />
+            ) : (
+              ""
+            )}
             <Link to="/home">
               <button type="submit" className="btn btn-info m-1">
                 cancel.

@@ -144,7 +144,7 @@ const CreateEventTemplateForm = () => {
                       className="btn-check"
                       name="mName"
                       id={`m${ministry.mId}`}
-                      autocomplete="off"
+                      autoComplete="off"
                       checked={ministry.selected}
                       value={`${ministry.mId}`}
                       onChange={handleChange}></input>
@@ -170,7 +170,7 @@ const CreateEventTemplateForm = () => {
                       className="btn-check"
                       name="rTitle"
                       id={`r${role.rId}`}
-                      autocomplete="off"
+                      autoComplete="off"
                       checked={role.selected}
                       value={`${role.rId}`}
                       onChange={handleChange}></input>

@@ -17,7 +17,7 @@ const ShowEventTemplates = () => {
                   <p className="card-text">
                     {eventTemplate.requiredRoles.map((requiredRole) => {
                       return (
-                        <span class="badge rounded-pill bg-primary mx-1">
+                        <span className="badge rounded-pill bg-primary mx-1">
                           {requiredRole.rTitle}
                         </span>
                       );

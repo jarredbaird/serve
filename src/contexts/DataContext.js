@@ -32,7 +32,11 @@ const DataProvider = (props) => {
         let allEventTemplates = await axios.get(
           `http://127.0.0.1:3001/event-templates`
         );
-        setEventTemplates(allEventTemplates.data);
+        setEventTemplates(
+          allEventTemplates.data.map((eventTemplate) => {
+            return { ...eventTemplate, shown: false, selected: false };
+          })
+        );
         let allUsers = await axios.get(`http://127.0.0.1:3001/users/`);
         setUsers(
           allUsers.data.map((user) => {

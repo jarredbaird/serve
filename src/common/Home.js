@@ -11,7 +11,7 @@ const Home = () => {
       <div className="col-6">
         <CreateEventTemplateForm />
       </div>
-      <div className="col-3">Some else thats helpful</div>
+      <div className="col-3">Something else thats helpful</div>
     </div>
   );
 };

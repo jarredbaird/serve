@@ -10,7 +10,7 @@ const { Provider } = UserContext;
 
 const UserProvider = (props) => {
   const [token, setToken] = useLocalStorage("serve-token");
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useLocalStorage("currentUser");
 
   useEffect(
     function loadUserInfo() {
