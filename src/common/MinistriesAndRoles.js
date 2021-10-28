@@ -11,28 +11,26 @@ const MinistriesAndRoles = ({
       {" "}
       <span>which ministries are they qualified for?</span>
       <br />
-      <div className="btn-group">
-        {ministries.map((ministry) => {
-          return (
-            <div key={ministry.mId} className="m-1">
-              <input
-                type="checkbox"
-                className="btn-check"
-                name="mName"
-                id={`m${ministry.mId}`}
-                autoComplete="off"
-                checked={ministry.selected}
-                value={`${ministry.mId}`}
-                onChange={handleChange}></input>
-              <label
-                className="btn btn-outline-primary"
-                htmlFor={`m${ministry.mId}`}>
-                {ministry.mName}
-              </label>
-            </div>
-          );
-        })}
-      </div>
+      {ministries.map((ministry) => {
+        return (
+          <span key={ministry.mId} className="m-1">
+            <input
+              type="checkbox"
+              className="btn-check"
+              name="mName"
+              id={`m${ministry.mId}`}
+              autoComplete="off"
+              checked={ministry.selected}
+              value={`${ministry.mId}`}
+              onChange={handleChange}></input>
+            <label
+              className="btn btn-outline-primary"
+              htmlFor={`m${ministry.mId}`}>
+              {ministry.mName}
+            </label>
+          </span>
+        );
+      })}
       <br />
       <br />
       <span> which specific roles are they qualified for? </span>

@@ -3,7 +3,6 @@ import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import "../account/AuthForm.css";
 import { DataContext } from "../contexts/DataContext";
-import ministriesAndRoles from "../common/MinistriesAndRoles";
 import MinistriesAndRoles from "../common/MinistriesAndRoles";
 
 const QualifyUserForm = () => {
@@ -13,6 +12,7 @@ const QualifyUserForm = () => {
   const { users, setUsers, ministries, setMinistries, roles, setRoles } =
     useContext(DataContext);
   const [selectedUser, setSelectedUser] = useState();
+  const [selectedOptions, setSelectedOptions] = useState({});
 
   const displayUsers = (uId, deSelect) => {
     if (deSelect) {
@@ -142,8 +142,11 @@ const QualifyUserForm = () => {
           <form onSubmit={handleSubmit}>
             <span>which user are we talkin' here?</span>
             <br />
-            {users.map((user) => {
-              if (user.shown)
+            {users
+              .filter((user) => {
+                return user.shown;
+              })
+              .map((user) => {
                 return (
                   <span key={`u${user.uId}`} className="m-1">
                     <input
@@ -166,7 +169,7 @@ const QualifyUserForm = () => {
                     </label>
                   </span>
                 );
-            })}
+              })}
             <br />
             {selectedUser ? (
               <MinistriesAndRoles

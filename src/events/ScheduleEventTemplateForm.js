@@ -24,7 +24,6 @@ const ScheduleEventTemplateForm = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
-      debugger;
       let result = await axios.post("http://127.0.0.1:3001/scheduled-events/", {
         etId: parseInt(formData.etId),
         location: formData.location,
