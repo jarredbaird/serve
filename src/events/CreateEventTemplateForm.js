@@ -162,7 +162,7 @@ const CreateEventTemplateForm = () => {
             <span> which roles are needed at this event? </span>
             <br />
             {roles.map((role) => {
-              if (role.shown)
+              if (role.shown) {
                 return (
                   <span key={role.rId} className="m-1">
                     <input
@@ -185,6 +185,9 @@ const CreateEventTemplateForm = () => {
                     </label>
                   </span>
                 );
+              } else {
+                return 0;
+              }
             })}
             <br />
             <br />

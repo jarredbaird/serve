@@ -7,7 +7,7 @@ import SignInForm from "../account/SignInForm.js";
 import SignupForm from "../account/SignUpForm.js";
 import Home from "../common/Home.js";
 import PrivateRoute from "./PrivateRoute";
-import QualifyUserForm from "../users/QualifyUserForm";
+// import QualifyUserForm from "../users/QualifyUserForm";
 import QualifyUserFormModule from "../users/QualifyUserFormModule";
 import ScheduleEventTemplateForm from "../events/ScheduleEventTemplateForm";
 

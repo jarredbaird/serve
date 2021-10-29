@@ -13,11 +13,13 @@ const FormSelectParts = ({
   setShown,
   displayRoles,
 }) => {
+  console.debug(shown);
   const handleChange = (evt) => {
-    const { value } = evt.target;
-    value = parseInt(value) ? parseInt(value) : value;
+    const value = parseInt(evt.target.value)
+      ? parseInt(evt.target.value)
+      : evt.target.value;
     if (multiSelect) {
-      const newSelected = selected[name]
+      let newSelected = selected[name]
         ? [...selected[name]]
         : (selected[name] = []);
       if (!newSelected.includes(value)) {
@@ -55,13 +57,22 @@ const FormSelectParts = ({
       <br />
       <span id={"label" + name}>{label}</span>
       {options.map((option) => {
-        const id =
-          option[
-            Object.keys(option).filter((key) => {
-              return key.includes("Id");
-            })
-          ];
-        if (shown[name] && shown[name].includes(option[id])) {
+        console.debug(
+          "**3** users array (FormSelectParts) is: ",
+          options,
+          "shown is: ",
+          shown
+        );
+        debugger;
+        const idKey = Object.keys(option).filter((key) => {
+          return key.includes("Id");
+        });
+        const nameKey = Object.keys(option).filter((key) => {
+          return key.includes("name") || key.includes("title");
+        });
+        const id = option[idKey];
+        const text = option[nameKey];
+        if (shown[name] && shown[name].includes(id)) {
           return (
             <span key={name + id}>
               <input
@@ -78,6 +89,9 @@ const FormSelectParts = ({
                 value={id}
                 onChange={handleChange}
               />
+              <label className="btn btn-outline-primary" htmlFor={name + id}>
+                {text}
+              </label>
             </span>
           );
         }

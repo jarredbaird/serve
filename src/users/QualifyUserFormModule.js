@@ -6,18 +6,18 @@ import { DataContext } from "../contexts/DataContext";
 import FormSelectParts from "../common/FormSelectParts";
 
 const QualifyUserFormModule = () => {
-  debugger;
+  const { users, ministries, roles, setRoles, loading } =
+    useContext(DataContext);
   const history = useHistory();
   const [formErrors, setFormErrors] = useState("");
-  const { users, ministries, roles, setRoles } = useContext(DataContext);
   const [selected, setSelected] = useState({
     users: null,
     ministries: [],
     roles: [],
   });
-  const initialUsers = users.map((user) => user.uId);
+
   const [shown, setShown] = useState({
-    users: initialUsers,
+    users: [13, 11],
     ministries: [],
     roles: [],
   });
@@ -62,6 +62,7 @@ const QualifyUserFormModule = () => {
     }
   };
 
+  // console.debug("**2** users array (QualifyUserFormModule) is: ", users);
   return (
     <div>
       {formErrors && formErrors.length ? (
@@ -95,17 +96,19 @@ const QualifyUserFormModule = () => {
             />
             {/* If a user has been selected, then display the ministries */}
 
-            <FormSelectParts
-              multiSelect={true}
-              label="which ministries are they qualified for?"
-              name="ministries"
-              options={ministries}
-              selected={selected}
-              setSelected={setSelected}
-              shown={shown}
-              setShown={setShown}
-              onChange={displayRoles}
-            />
+            {selected.users ? (
+              <FormSelectParts
+                multiSelect={true}
+                label="which ministries are they qualified for?"
+                name="ministries"
+                options={ministries}
+                selected={selected}
+                setSelected={setSelected}
+                shown={shown}
+                setShown={setShown}
+                onChange={displayRoles}
+              />
+            ) : null}
 
             {/* If one or more ministries have been selected, then display the roles */}
             {selected.ministries.length ? (
