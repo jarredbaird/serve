@@ -11,18 +11,16 @@ const FormSelectParts = ({
   setSelected,
   shown,
   setShown,
-  displayRoles,
+  sideEffect = null,
+  keyToReveal = null,
 }) => {
-  console.debug(shown);
   const handleChange = (evt) => {
     const value = parseInt(evt.target.value)
       ? parseInt(evt.target.value)
       : evt.target.value;
     if (multiSelect) {
-      let newSelected = selected[name]
-        ? [...selected[name]]
-        : (selected[name] = []);
-      if (!newSelected.includes(value)) {
+      let newSelected = [...selected[name]];
+      if (newSelected.includes(value)) {
         newSelected = newSelected.filter((itemToRemove) => {
           return itemToRemove !== value;
         });
@@ -32,13 +30,13 @@ const FormSelectParts = ({
       selected[name] = [...newSelected];
       setSelected({ ...selected });
     } else {
-      if (Array.isArray(shown[name])) {
-        selected[name] = value;
-        shown[name] = value;
+      if (shown[name].length > 1) {
+        selected[name] = [value];
+        shown[name] = [value];
         setSelected({ ...selected });
         setShown({ ...shown });
       } else {
-        selected[name] = null;
+        selected[name] = [];
         shown[name] = options.map((option) => {
           const id = Object.keys(option).filter((key) => {
             return key.includes("Id");
@@ -49,27 +47,44 @@ const FormSelectParts = ({
         setShown({ ...shown });
       }
     }
-    displayRoles(evt);
+    if (sideEffect) {
+      const toShow = [];
+      for (let option of sideEffect.options) {
+        if (selected[name] && selected[name].includes(option[keyToReveal])) {
+          toShow.push(option[sideEffect.id]);
+        }
+      }
+      shown[sideEffect.name] = [...toShow];
+      setShown({ ...shown });
+    }
   };
 
   return (
     <>
       <br />
       <span id={"label" + name}>{label}</span>
+      <br />
       {options.map((option) => {
-        console.debug(
-          "**3** users array (FormSelectParts) is: ",
-          options,
-          "shown is: ",
-          shown
-        );
-        debugger;
-        const idKey = Object.keys(option).filter((key) => {
-          return key.includes("Id");
-        });
-        const nameKey = Object.keys(option).filter((key) => {
-          return key.includes("name") || key.includes("title");
-        });
+        let idKey;
+        let nameKey;
+        switch (name) {
+          case "roles":
+            idKey = "rId";
+            nameKey = "rTitle";
+            break;
+          case "users":
+            idKey = "uId";
+            nameKey = "username";
+            break;
+          case "ministries":
+            idKey = "mId";
+            nameKey = "mName";
+            break;
+          default:
+            console.log("something is wrong");
+        }
+
+        // if (nameKey === "rTitle") debugger;
         const id = option[idKey];
         const text = option[nameKey];
         if (shown[name] && shown[name].includes(id)) {
@@ -82,14 +97,15 @@ const FormSelectParts = ({
                 id={name + id}
                 autoComplete="off"
                 checked={
-                  selected[name] && selected[name].includes(option[id])
-                    ? true
-                    : false
+                  selected[name] && selected[name].includes(id) ? true : false
                 }
                 value={id}
                 onChange={handleChange}
               />
               <label className="btn btn-outline-primary" htmlFor={name + id}>
+                {name === "roles" ? (
+                  <span style={{ fontSize: "0.7rem" }}>{option.mName} / </span>
+                ) : null}
                 {text}
               </label>
             </span>

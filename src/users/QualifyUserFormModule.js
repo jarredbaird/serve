@@ -8,37 +8,22 @@ import FormSelectParts from "../common/FormSelectParts";
 const QualifyUserFormModule = () => {
   const { users, ministries, roles, setRoles, loading } =
     useContext(DataContext);
+  const initialUsers = users.map((user) => user.uId);
+  const initialMinistries = ministries.map((ministry) => ministry.mId);
+  console.debug(initialMinistries);
   const history = useHistory();
   const [formErrors, setFormErrors] = useState("");
   const [selected, setSelected] = useState({
-    users: null,
+    users: [],
     ministries: [],
     roles: [],
   });
 
   const [shown, setShown] = useState({
-    users: [13, 11],
-    ministries: [],
+    users: initialUsers,
+    ministries: initialMinistries,
     roles: [],
   });
-
-  const displayRoles = (evt) => {
-    if (evt.target.name === "mId") {
-      const value = evt.target.value;
-      if (shown.roles.includes(value)) {
-        shown.roles = roles.filter((role) => {
-          return role.rId !== value;
-        });
-      } else {
-        shown.roles.push(
-          ...roles.filter((role) => {
-            return role.mId === value;
-          })
-        );
-      }
-      setShown({ ...shown });
-    }
-  };
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
@@ -62,7 +47,6 @@ const QualifyUserFormModule = () => {
     }
   };
 
-  // console.debug("**2** users array (QualifyUserFormModule) is: ", users);
   return (
     <div>
       {formErrors && formErrors.length ? (
@@ -96,24 +80,25 @@ const QualifyUserFormModule = () => {
             />
             {/* If a user has been selected, then display the ministries */}
 
-            {selected.users ? (
+            {selected.users.length ? (
               <FormSelectParts
                 multiSelect={true}
                 label="which ministries are they qualified for?"
                 name="ministries"
                 options={ministries}
                 selected={selected}
+                sideEffect={{ name: "roles", options: roles, id: "rId" }}
+                keyToReveal="mId"
                 setSelected={setSelected}
                 shown={shown}
                 setShown={setShown}
-                onChange={displayRoles}
               />
             ) : null}
 
             {/* If one or more ministries have been selected, then display the roles */}
             {selected.ministries.length ? (
               <FormSelectParts
-                multiSelect={false}
+                multiSelect={true}
                 label="which role(s) are they qualified for?"
                 name="roles"
                 options={roles}
@@ -123,6 +108,22 @@ const QualifyUserFormModule = () => {
                 setShown={setShown}
               />
             ) : null}
+            {selected.roles.length ? (
+              <button
+                type="submit"
+                className="btn btn-success"
+                onSubmit={handleSubmit}>
+                certify! 🎉.
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="btn btn-success"
+                disabled
+                onSubmit={handleSubmit}>
+                certify! 🎉.
+              </button>
+            )}
             <Link to="/home">
               <button type="submit" className="btn btn-info m-1">
                 cancel.

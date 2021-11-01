@@ -41,13 +41,7 @@ const DataProvider = (props) => {
         return { ...user };
       })
     );
-    // console.debug(
-    //   "**1** users array (DataContext) is: ",
-    //   users,
-    //   allUsers.data,
-    //   "eventTemplates array (DataContext) is: ",
-    //   eventTemplates
-    // );
+
     setLoading(false);
   };
 
