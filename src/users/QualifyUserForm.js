@@ -3,101 +3,35 @@ import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import "../account/AuthForm.css";
 import { DataContext } from "../contexts/DataContext";
-import MinistriesAndRoles from "../common/MinistriesAndRoles";
+import FormSelectParts from "../common/FormSelectParts";
 
 const QualifyUserForm = () => {
-  const history = useHistory();
-  const [formData, setFormData] = useState({});
-  const [formErrors, setFormErrors] = useState("");
-  const { users, setUsers, ministries, setMinistries, roles, setRoles } =
+  const { users, ministries, roles, setRoles, loading } =
     useContext(DataContext);
-  const [selectedUser, setSelectedUser] = useState();
-  const [selectedOptions, setSelectedOptions] = useState({});
+  const initialUsers = users.map((user) => user.uId);
+  const initialMinistries = ministries.map((ministry) => ministry.mId);
+  console.debug(initialMinistries);
+  const history = useHistory();
+  const [formErrors, setFormErrors] = useState("");
+  const [selected, setSelected] = useState({
+    users: [],
+    ministries: [],
+    roles: [],
+  });
 
-  const displayUsers = (uId, deSelect) => {
-    if (deSelect) {
-      setUsers(
-        users.map((user) => {
-          user.shown = true;
-          user.selected = false;
-          return user;
-        })
-      );
-      setSelectedUser(null);
-    } else {
-      setUsers(
-        users.map((user) => {
-          if (user.uId === uId) {
-            user.shown = true;
-            user.selected = true;
-          } else {
-            user.shown = false;
-            user.selected = false;
-          }
-          return user;
-        })
-      );
-      setSelectedUser(uId);
-    }
-  };
-
-  const showRole = (mId) => {
-    setRoles(
-      roles.map((role) => {
-        if (role.mId === mId) {
-          role.shown = !role.shown;
-        }
-        if (!role.shown) role.selected = false;
-        return role;
-      })
-    );
-  };
-
-  const handleChange = (evt) => {
-    const { name } = evt.target;
-    const value =
-      name === "rTitle" || name === "mName" || name === "username"
-        ? parseInt(evt.target.value)
-        : evt.target.value;
-    if (name === "username") {
-      displayUsers(
-        value,
-        users.some((user) => user.selected)
-      );
-    }
-    if (name === "mName") {
-      showRole(value);
-      setMinistries(
-        ministries.map((ministry) => {
-          if (ministry.mId === value) {
-            ministry.selected = !ministry.selected;
-          }
-          return ministry;
-        })
-      );
-    } else if (name === "rTitle") {
-      setRoles(
-        roles.map((role) => {
-          if (role.rId === value) {
-            role.selected = !role.selected;
-          }
-          return role;
-        })
-      );
-    } else {
-      setFormData((item) => ({ ...item, [name]: value }));
-    }
-  };
+  const [shown, setShown] = useState({
+    users: initialUsers,
+    ministries: initialMinistries,
+    roles: [],
+  });
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    const selectedRoles = roles.filter((role) => {
-      return role.selected;
-    });
     try {
+      debugger;
       let result = await axios.post(
-        `http://127.0.0.1:3001/users/qualify/${selectedUser}`,
-        selectedRoles
+        `http://127.0.0.1:3001/users/qualify/${selected.users[0]}`,
+        selected.roles
       );
       setRoles(
         roles.map((role) => {
@@ -105,12 +39,6 @@ const QualifyUserForm = () => {
         })
       );
       if (result.data) {
-        let allUsers = await axios.get(`http://127.0.0.1:3001/users/`);
-        setUsers(
-          allUsers.data.map((user) => {
-            return { ...user, selected: false, shown: true };
-          })
-        );
         history.push("/home");
       } else {
         setFormErrors(result.errors);
@@ -140,46 +68,62 @@ const QualifyUserForm = () => {
             machine. you would add the "barista master" role to his profile)
           </h6>
           <form onSubmit={handleSubmit}>
-            <span>which user are we talkin' here?</span>
-            <br />
-            {users
-              .filter((user) => {
-                return user.shown;
-              })
-              .map((user) => {
-                return (
-                  <span key={`u${user.uId}`} className="m-1">
-                    <input
-                      type="checkbox"
-                      className="btn-check"
-                      name="username"
-                      id={`u${user.uId}`}
-                      autoComplete="off"
-                      checked={user.selected}
-                      value={`${user.uId}`}
-                      onChange={handleChange}></input>
-                    <label
-                      className="btn btn-outline-primary"
-                      htmlFor={`u${user.uId}`}>
-                      {`${user.first} ${user.last}`}
-                      <span style={{ fontSize: "0.7rem" }}>
-                        {" "}
-                        / {user.username}{" "}
-                      </span>
-                    </label>
-                  </span>
-                );
-              })}
-            <br />
-            {selectedUser ? (
-              <MinistriesAndRoles
-                handleChange={handleChange}
-                handleSubmit={handleSubmit}
-                ministries={ministries}
-                roles={roles}
+            {/* Show the users first... */}
+            <FormSelectParts
+              multiSelect={false}
+              label="which user are we talkin' about?"
+              name="users"
+              options={users}
+              selected={selected}
+              setSelected={setSelected}
+              shown={shown}
+              setShown={setShown}
+            />
+            {/* If a user has been selected, then display the ministries */}
+
+            {selected.users.length ? (
+              <FormSelectParts
+                multiSelect={true}
+                label="which ministries are they qualified for?"
+                name="ministries"
+                options={ministries}
+                selected={selected}
+                sideEffect={{ name: "roles", options: roles, id: "rId" }}
+                keyToReveal="mId"
+                setSelected={setSelected}
+                shown={shown}
+                setShown={setShown}
               />
+            ) : null}
+
+            {/* If one or more ministries have been selected, then display the roles */}
+            {selected.ministries.length ? (
+              <FormSelectParts
+                multiSelect={true}
+                label="which role(s) are they qualified for?"
+                name="roles"
+                options={roles}
+                selected={selected}
+                setSelected={setSelected}
+                shown={shown}
+                setShown={setShown}
+              />
+            ) : null}
+            {selected.roles.length ? (
+              <button
+                type="submit"
+                className="btn btn-success"
+                onSubmit={handleSubmit}>
+                certify! 🎉.
+              </button>
             ) : (
-              ""
+              <button
+                type="submit"
+                className="btn btn-success"
+                disabled
+                onSubmit={handleSubmit}>
+                certify! 🎉.
+              </button>
             )}
             <Link to="/home">
               <button type="submit" className="btn btn-info m-1">

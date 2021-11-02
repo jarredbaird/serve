@@ -7,16 +7,14 @@ import SignInForm from "../account/SignInForm.js";
 import SignupForm from "../account/SignUpForm.js";
 import Home from "../common/Home.js";
 import PrivateRoute from "./PrivateRoute";
-// import QualifyUserForm from "../users/QualifyUserForm";
-import QualifyUserFormModule from "../users/QualifyUserFormModule";
+import QualifyUserForm from "../users/QualifyUserForm";
 import ScheduleEventTemplateForm from "../events/ScheduleEventTemplateForm";
 
 function Routes() {
   return (
     <Switch>
       <PrivateRoute exact path="/users/qualify">
-        {/* <QualifyUserForm /> */}
-        <QualifyUserFormModule />
+        <QualifyUserForm />
       </PrivateRoute>
       <PrivateRoute exact path="/event-templates/create">
         <CreateEventTemplateForm />

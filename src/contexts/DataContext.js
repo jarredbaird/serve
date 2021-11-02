@@ -49,6 +49,8 @@ const DataProvider = (props) => {
     getData();
   }, []);
 
+  if (loading) return <div>Still loading...</div>;
+
   return (
     <Provider
       value={{
