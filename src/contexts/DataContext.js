@@ -16,31 +16,16 @@ const DataProvider = (props) => {
   const getData = async () => {
     setLoading(true);
     let allMinistries = await axios.get(`http://127.0.0.1:3001/ministries/`);
-    setMinistries(
-      allMinistries.data.map((ministry) => {
-        return { ...ministry, selected: false };
-      })
-    );
+    debugger;
+    setMinistries(allMinistries.data);
     let allRoles = await axios.get(`http://127.0.0.1:3001/roles/`);
-    setRoles(
-      allRoles.data.map((role) => {
-        return { ...role, shown: false, selected: false };
-      })
-    );
+    setRoles(allRoles.data);
     let allEventTemplates = await axios.get(
       `http://127.0.0.1:3001/event-templates`
     );
-    setEventTemplates(
-      allEventTemplates.data.map((eventTemplate) => {
-        return { ...eventTemplate, shown: false, selected: false };
-      })
-    );
+    setEventTemplates(allEventTemplates.data);
     let allUsers = await axios.get(`http://127.0.0.1:3001/users/`);
-    setUsers(
-      allUsers.data.map((user) => {
-        return { ...user };
-      })
-    );
+    setUsers(allUsers.data);
 
     setLoading(false);
   };

@@ -30,6 +30,7 @@ const FormSelectParts = ({
       selected[name] = [...newSelected];
       setSelected({ ...selected });
     } else {
+      // single select
       if (shown[name].length > 1) {
         selected[name] = [value];
         shown[name] = [value];
@@ -74,7 +75,7 @@ const FormSelectParts = ({
             break;
           case "users":
             idKey = "uId";
-            nameKey = "username";
+            nameKey = "first";
             break;
           case "ministries":
             idKey = "mId";

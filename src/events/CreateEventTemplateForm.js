@@ -3,60 +3,30 @@ import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 import "../account/AuthForm.css";
 import { DataContext } from "../contexts/DataContext";
+import FormSelectParts from "../common/FormSelectParts";
 
 const CreateEventTemplateForm = () => {
   const history = useHistory();
   const [formData, setFormData] = useState({});
+  const { ministries, roles, setRoles, eventTemplates, setEventTemplates } =
+    useContext(DataContext);
+  const initialMinistries = ministries.map((ministry) => ministry.mId);
+  console.debug(initialMinistries);
   const [formErrors, setFormErrors] = useState("");
-  const {
-    ministries,
-    setMinistries,
-    roles,
-    setRoles,
-    eventTemplates,
-    setEventTemplates,
-  } = useContext(DataContext);
+  const [selected, setSelected] = useState({
+    ministries: [],
+    roles: [],
+  });
 
-  const showRole = (mId) => {
-    setRoles(
-      roles.map((role) => {
-        if (role.mId === mId) {
-          role.shown = !role.shown;
-        }
-        if (!role.shown) role.selected = false;
-        return role;
-      })
-    );
-  };
+  const [shown, setShown] = useState({
+    ministries: initialMinistries,
+    roles: [],
+  });
 
   const handleChange = (evt) => {
     const { name } = evt.target;
-    const value =
-      name === "rTitle" || name === "mName"
-        ? parseInt(evt.target.value)
-        : evt.target.value;
-    if (name === "mName") {
-      showRole(value);
-      setMinistries(
-        ministries.map((ministry) => {
-          if (ministry.mId === value) {
-            ministry.selected = !ministry.selected;
-          }
-          return ministry;
-        })
-      );
-    } else if (name === "rTitle") {
-      setRoles(
-        roles.map((role) => {
-          if (role.rId === value) {
-            role.selected = !role.selected;
-          }
-          return role;
-        })
-      );
-    } else {
-      setFormData((item) => ({ ...item, [name]: value }));
-    }
+    const value = evt.target.value;
+    setFormData((item) => ({ ...item, [name]: value }));
   };
 
   const handleSubmit = async (evt) => {
@@ -133,71 +103,50 @@ const CreateEventTemplateForm = () => {
               />
               <label htmlFor="etDescr">event template description.</label>
             </div>
-            <span>which ministries are needed at this event?</span>
-            <br />
-            <div className="btn-group">
-              {ministries.map((ministry) => {
-                return (
-                  <div key={ministry.mId} className="m-1">
-                    <input
-                      type="checkbox"
-                      className="btn-check"
-                      name="mName"
-                      id={`m${ministry.mId}`}
-                      autoComplete="off"
-                      checked={ministry.selected}
-                      value={`${ministry.mId}`}
-                      onChange={handleChange}></input>
-                    <label
-                      className="btn btn-outline-primary"
-                      htmlFor={`m${ministry.mId}`}>
-                      {ministry.mName}
-                    </label>
-                  </div>
-                );
-              })}
-            </div>
-            <br />
-            <br />
-            <span> which roles are needed at this event? </span>
-            <br />
-            {roles.map((role) => {
-              if (role.shown) {
-                return (
-                  <span key={role.rId} className="m-1">
-                    <input
-                      type="checkbox"
-                      className="btn-check"
-                      name="rTitle"
-                      id={`r${role.rId}`}
-                      autoComplete="off"
-                      checked={role.selected}
-                      value={`${role.rId}`}
-                      onChange={handleChange}></input>
-                    <label
-                      className="btn btn-outline-primary"
-                      htmlFor={`r${role.rId}`}>
-                      {role.rTitle}
-                      <span style={{ fontSize: "0.7rem" }}>
-                        {" "}
-                        / {role.mName}{" "}
-                      </span>
-                    </label>
-                  </span>
-                );
-              } else {
-                return 0;
-              }
-            })}
-            <br />
-            <br />
-            <button
-              type="submit"
-              className="btn btn-success"
-              onSubmit={handleSubmit}>
-              create event template.
-            </button>
-            <Link to="/authed">
+
+            <FormSelectParts
+              multiSelect={true}
+              label="which ministries are they qualified for?"
+              name="ministries"
+              options={ministries}
+              selected={selected}
+              sideEffect={{ name: "roles", options: roles, id: "rId" }}
+              keyToReveal="mId"
+              setSelected={setSelected}
+              shown={shown}
+              setShown={setShown}
+            />
+
+            {/* If one or more ministries have been selected, then display the roles */}
+            {selected.ministries.length ? (
+              <FormSelectParts
+                multiSelect={true}
+                label="which role(s) are they qualified for?"
+                name="roles"
+                options={roles}
+                selected={selected}
+                setSelected={setSelected}
+                shown={shown}
+                setShown={setShown}
+              />
+            ) : null}
+            {selected.roles.length ? (
+              <button
+                type="submit"
+                className="btn btn-success"
+                onSubmit={handleSubmit}>
+                certify! 🎉.
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="btn btn-success"
+                disabled
+                onSubmit={handleSubmit}>
+                certify! 🎉.
+              </button>
+            )}
+            <Link to="/home">
               <button type="submit" className="btn btn-info m-1">
                 cancel.
               </button>
