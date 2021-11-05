@@ -6,6 +6,7 @@ import ShowEventTemplates from "../events/ShowEventTemplates";
 import SignInForm from "../account/SignInForm.js";
 import SignupForm from "../account/SignUpForm.js";
 import Home from "../common/Home.js";
+import AdminHome from "../common/AdminHome.js";
 import PrivateRoute from "./PrivateRoute";
 import QualifyUserForm from "../users/QualifyUserForm";
 import ScheduleEventTemplateForm from "../events/ScheduleEventTemplateForm";
@@ -30,6 +31,9 @@ function Routes() {
       </PrivateRoute>
       <PrivateRoute exact path="/home">
         <Home />
+      </PrivateRoute>
+      <PrivateRoute exact path="/home/admin">
+        <AdminHome />
       </PrivateRoute>
       <Route exact path="/signin">
         <SignInForm />

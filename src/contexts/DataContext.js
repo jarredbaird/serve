@@ -11,12 +11,12 @@ const DataProvider = (props) => {
   const [eventTemplates, setEventTemplates] = useState([]);
   const [roles, setRoles] = useState([]);
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [scheduledRoles, setScheduledRoles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getData = async () => {
     setLoading(true);
     let allMinistries = await axios.get(`http://127.0.0.1:3001/ministries/`);
-    debugger;
     setMinistries(allMinistries.data);
     let allRoles = await axios.get(`http://127.0.0.1:3001/roles/`);
     setRoles(allRoles.data);
@@ -26,7 +26,10 @@ const DataProvider = (props) => {
     setEventTemplates(allEventTemplates.data);
     let allUsers = await axios.get(`http://127.0.0.1:3001/users/`);
     setUsers(allUsers.data);
-
+    let allScheduledRoles = await axios.get(
+      `http://127.0.0.1:3001/scheduled-events/roles`
+    );
+    setScheduledRoles(allScheduledRoles.data);
     setLoading(false);
   };
 
@@ -34,7 +37,7 @@ const DataProvider = (props) => {
     getData();
   }, []);
 
-  if (loading) return <div>Still loading...</div>;
+  if (loading) return <div>Still loading data...</div>;
 
   return (
     <Provider
@@ -48,6 +51,8 @@ const DataProvider = (props) => {
         setEventTemplates,
         users,
         setUsers,
+        scheduledRoles,
+        setScheduledRoles,
       }}>
       {props.children}
     </Provider>

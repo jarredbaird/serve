@@ -6,6 +6,7 @@ import SignedOutNav from "./SignedOutNav";
 
 const NavBar = () => {
   const { currentUser } = useContext(UserContext);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">

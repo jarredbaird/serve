@@ -11,7 +11,7 @@ const CreateEventTemplateForm = () => {
   const { ministries, roles, setRoles, eventTemplates, setEventTemplates } =
     useContext(DataContext);
   const initialMinistries = ministries.map((ministry) => ministry.mId);
-  console.debug(initialMinistries);
+
   const [formErrors, setFormErrors] = useState("");
   const [selected, setSelected] = useState({
     ministries: [],
@@ -31,9 +31,8 @@ const CreateEventTemplateForm = () => {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    const selectedRoles = roles.filter((role) => {
-      return role.selected;
-    });
+    const selectedRoles = selected.roles;
+    debugger;
     try {
       let result = await axios.post("http://127.0.0.1:3001/event-templates/", {
         ...formData,
@@ -135,7 +134,7 @@ const CreateEventTemplateForm = () => {
                 type="submit"
                 className="btn btn-success"
                 onSubmit={handleSubmit}>
-                certify! 🎉.
+                create event template! 🎉
               </button>
             ) : (
               <button
@@ -143,7 +142,7 @@ const CreateEventTemplateForm = () => {
                 className="btn btn-success"
                 disabled
                 onSubmit={handleSubmit}>
-                certify! 🎉.
+                select roles first...
               </button>
             )}
             <Link to="/home">

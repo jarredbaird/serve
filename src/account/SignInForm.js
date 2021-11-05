@@ -6,10 +6,14 @@ import { UserContext } from "../contexts/UserContext";
 import "./AuthForm.css";
 
 const SignInForm = () => {
-  const { setToken } = useContext(UserContext);
+  const { currentUser, setToken } = useContext(UserContext);
   const history = useHistory();
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [formErrors, setFormErrors] = useState("");
+
+  if (currentUser) {
+    history.push("/home");
+  }
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
@@ -23,6 +27,7 @@ const SignInForm = () => {
         "http://127.0.0.1:3001/auth/get-token",
         formData
       );
+
       // let result = {
       //   data: formData,
       //   success: true,
@@ -36,7 +41,7 @@ const SignInForm = () => {
         setFormErrors(result.errors);
       }
     } catch (e) {
-      setFormErrors(e.response.data.error.message);
+      setFormErrors(e.message);
     }
   };
 

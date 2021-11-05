@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const ScheduleEventTemplateForm = () => {
   const history = useHistory();
-  const { eventTemplates, setEventTemplates } = useContext(DataContext);
+  const { eventTemplates } = useContext(DataContext);
   const [formErrors, setFormErrors] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());

@@ -9,7 +9,7 @@ const ShowEventTemplates = () => {
       <div className="row row-cols-1 row-cols-md-1 g-4">
         {eventTemplates.map((eventTemplate) => {
           return (
-            <div className="col">
+            <div className="col" key={`et${eventTemplate.etId}`}>
               <div className="card">
                 <div className="card-body">
                   <h5 className="card-title">{eventTemplate.etName}</h5>
@@ -17,7 +17,9 @@ const ShowEventTemplates = () => {
                   <p className="card-text">
                     {eventTemplate.requiredRoles.map((requiredRole) => {
                       return (
-                        <span className="badge rounded-pill bg-primary mx-1">
+                        <span
+                          className="badge rounded-pill bg-primary mx-1"
+                          key={`rr${requiredRole.rId}`}>
                           {requiredRole.rTitle}
                         </span>
                       );

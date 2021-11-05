@@ -10,33 +10,30 @@ const { Provider } = UserContext;
 
 const UserProvider = (props) => {
   const [token, setToken] = useLocalStorage("serve-token");
-  const [currentUser, setCurrentUser] = useLocalStorage("currentUser");
-  const [loading, setLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(
-    function loadUserInfo() {
-      async function getCurrentUser() {
-        setLoading(true);
-        if (token) {
-          try {
-            let { username } = jwt.decode(token);
-            let currentUser = await axios.get(
-              `http://127.0.0.1:3001/users/${username}`
-            );
-            setCurrentUser(JSON.stringify(currentUser.data));
-          } catch (e) {
-            setCurrentUser(null);
-            console.log(e);
-          }
+  useEffect(() => {
+    setLoading(true);
+    const loadCurrentUser = async () => {
+      if (token) {
+        try {
+          let { username } = jwt.decode(token);
+          let currentUser = await axios.get(
+            `http://127.0.0.1:3001/users/${username}`
+          );
+          setCurrentUser(currentUser.data);
+        } catch (e) {
+          setCurrentUser(null);
+          console.log(e);
         }
-        setLoading(false);
       }
-      getCurrentUser();
-    },
-    [token]
-  );
+    };
+    loadCurrentUser();
+    setLoading(false);
+  }, [token]);
 
-  if (loading) return <div>Still loading...</div>;
+  if (loading) return <div>Still loading your information...</div>;
 
   return (
     <Provider value={{ token, setToken, currentUser, setCurrentUser }}>

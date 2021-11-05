@@ -6,10 +6,14 @@ import { UserContext } from "../contexts/UserContext";
 import "./AuthForm.css";
 
 const SignUpForm = () => {
-  const { setToken } = useContext(UserContext);
+  const { currentUser, setToken } = useContext(UserContext);
   const history = useHistory();
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [formErrors, setFormErrors] = useState("");
+
+  if (currentUser) {
+    history.push("/home");
+  }
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;

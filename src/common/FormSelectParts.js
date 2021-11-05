@@ -85,7 +85,6 @@ const FormSelectParts = ({
             console.log("something is wrong");
         }
 
-        // if (nameKey === "rTitle") debugger;
         const id = option[idKey];
         const text = option[nameKey];
         if (shown[name] && shown[name].includes(id)) {
