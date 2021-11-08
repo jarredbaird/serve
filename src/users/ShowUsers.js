@@ -12,7 +12,7 @@ const ShowUsers = () => {
             <div className="col">
               <div className="card">
                 <div className="card-body">
-                  <h5 className="card-title">{`${user.first} ${user.last}`}</h5>
+                  <h5 className="card-title">{`${user.uName}`}</h5>
                   <p className="card-text">{user.username}</p>
                   <p className="card-text">
                     {user.qualifiedRoles.map((qualifiedRoles) => {
