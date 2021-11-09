@@ -1,7 +1,7 @@
 import React from "react";
-import CreateEventTemplateForm from "../events/CreateEventTemplateForm";
 import ShowEventTemplates from "../events/ShowEventTemplates";
 import ShowQualifiedRoles from "../roles/ShowQualifiedRoles.js";
+import UserSignedUpRoles from "../users/UserSignedUpRoles";
 
 const Home = () => {
   return (
@@ -9,10 +9,7 @@ const Home = () => {
       <div className="col-3 ">
         <ShowEventTemplates />
       </div>
-      <div className="col-6">
-        <ShowQualifiedRoles />
-      </div>
-      <div className="col-3">Something else thats helpful</div>
+      <ShowQualifiedRoles />
     </div>
   );
 };

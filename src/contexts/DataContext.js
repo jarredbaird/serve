@@ -43,6 +43,7 @@ const DataProvider = (props) => {
     <Provider
       value={{
         loading,
+        setLoading,
         ministries,
         setMinistries,
         roles,
