@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+
 /** Context: provides allll the data for the app. */
 
 const DataContext = React.createContext();
@@ -16,18 +18,16 @@ const DataProvider = (props) => {
 
   const getData = async () => {
     setLoading(true);
-    let allMinistries = await axios.get(`http://127.0.0.1:3001/ministries/`);
+    let allMinistries = await axios.get(`${BASE_URL}/ministries/`);
     setMinistries(allMinistries.data);
-    let allRoles = await axios.get(`http://127.0.0.1:3001/roles/`);
+    let allRoles = await axios.get(`${BASE_URL}/roles/`);
     setRoles(allRoles.data);
-    let allEventTemplates = await axios.get(
-      `http://127.0.0.1:3001/event-templates`
-    );
+    let allEventTemplates = await axios.get(`${BASE_URL}/event-templates`);
     setEventTemplates(allEventTemplates.data);
-    let allUsers = await axios.get(`http://127.0.0.1:3001/users/`);
+    let allUsers = await axios.get(`${BASE_URL}/users/`);
     setUsers(allUsers.data);
     let allScheduledRoles = await axios.get(
-      `http://127.0.0.1:3001/scheduled-events/roles`
+      `${BASE_URL}/scheduled-events/roles`
     );
     setScheduledRoles(allScheduledRoles.data);
     setLoading(false);

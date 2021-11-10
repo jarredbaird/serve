@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../contexts/UserContext";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+
 const UserSignedUpRoles = ({ loading, setLoading }) => {
   const { currentUser } = useContext(UserContext);
   const [signedUpRoles, setSignedUpRoles] = useState([]);
@@ -10,7 +12,7 @@ const UserSignedUpRoles = ({ loading, setLoading }) => {
     setLoading(true);
     const getScheduledRoles = async () => {
       const results = await axios.get(
-        `http://127.0.0.1:3001/scheduled-users/${currentUser.uId}`
+        `${BASE_URL}/scheduled-users/${currentUser.uId}`
       );
       setSignedUpRoles(results.data);
     };

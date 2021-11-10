@@ -5,6 +5,8 @@ import "../account/AuthForm.css";
 import { DataContext } from "../contexts/DataContext";
 import FormSelectParts from "../common/FormSelectParts";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+
 const CreateEventTemplateForm = () => {
   const history = useHistory();
   const [formData, setFormData] = useState({});
@@ -34,7 +36,7 @@ const CreateEventTemplateForm = () => {
     const selectedRoles = selected.roles;
     debugger;
     try {
-      let result = await axios.post("http://127.0.0.1:3001/event-templates/", {
+      let result = await axios.post(`${BASE_URL}/event-templates/`, {
         ...formData,
         selectedRoles,
       });

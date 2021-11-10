@@ -3,6 +3,8 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 import useLocalStorage from "../hooks/useLocalStorage";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+
 /** Context: provides currentUser object and setter for it throughout app. */
 
 const UserContext = React.createContext();
@@ -19,9 +21,7 @@ const UserProvider = (props) => {
       if (token) {
         try {
           let { username } = jwt.decode(token);
-          let currentUser = await axios.get(
-            `http://127.0.0.1:3001/users/${username}`
-          );
+          let currentUser = await axios.get(`${BASE_URL}/users/${username}`);
           setCurrentUser(currentUser.data);
         } catch (e) {
           setCurrentUser(null);

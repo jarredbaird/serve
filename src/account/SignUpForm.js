@@ -5,6 +5,8 @@ import { UserContext } from "../contexts/UserContext";
 
 import "./AuthForm.css";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+
 const SignUpForm = () => {
   const { currentUser, setToken } = useContext(UserContext);
   const history = useHistory();
@@ -23,7 +25,7 @@ const SignUpForm = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
-      let result = await axios.post("http://127.0.0.1:3001/users/", formData);
+      let result = await axios.post(`${BASE_URL}/users/`, formData);
       // let result = {
       //   data: formData,
       //   success: true,

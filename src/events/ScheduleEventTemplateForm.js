@@ -5,6 +5,8 @@ import DatePicker from "react-datepicker";
 import { DataContext } from "../contexts/DataContext";
 import "react-datepicker/dist/react-datepicker.css";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+
 const ScheduleEventTemplateForm = () => {
   const history = useHistory();
   const { eventTemplates } = useContext(DataContext);
@@ -24,7 +26,7 @@ const ScheduleEventTemplateForm = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
-      let result = await axios.post("http://127.0.0.1:3001/scheduled-events/", {
+      let result = await axios.post(`${BASE_URL}/scheduled-events/`, {
         etId: parseInt(formData.etId),
         location: formData.location,
         startTime: startDate,

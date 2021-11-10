@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import UserSignedUpRoles from "../users/UserSignedUpRoles";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+
 const ShowQualifiedRoles = () => {
   const { currentUser } = useContext(UserContext);
   const [
@@ -15,7 +17,7 @@ const ShowQualifiedRoles = () => {
     setLoading(true);
     const getScheduledQualifiedRoles = async () => {
       const results = await axios.get(
-        `http://127.0.0.1:3001/schedule-user/${currentUser.uId}`
+        `${BASE_URL}/schedule-user/${currentUser.uId}`
       );
       setCurrentUserScheduledQualifiedRoles(results.data);
     };
@@ -24,7 +26,7 @@ const ShowQualifiedRoles = () => {
   }, [loading]);
 
   const signup = async (scheduledEventId, requiredRoleId, userId) => {
-    const results = await axios.post(`http://127.0.0.1:3001/scheduled-users/`, {
+    const results = await axios.post(`${BASE_URL}/scheduled-users/`, {
       seId: scheduledEventId,
       etrrId: requiredRoleId,
       uId: userId,
@@ -34,16 +36,13 @@ const ShowQualifiedRoles = () => {
   };
 
   const unsignup = async (scheduledEventId, requiredRoleId, userId) => {
-    const results = await axios.delete(
-      `http://127.0.0.1:3001/scheduled-users/`,
-      {
-        data: {
-          seId: scheduledEventId,
-          etrrId: requiredRoleId,
-          uId: userId,
-        },
-      }
-    );
+    const results = await axios.delete(`${BASE_URL}/scheduled-users/`, {
+      data: {
+        seId: scheduledEventId,
+        etrrId: requiredRoleId,
+        uId: userId,
+      },
+    });
     console.debug(results.data);
     setLoading(true);
   };

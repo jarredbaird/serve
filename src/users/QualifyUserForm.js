@@ -5,6 +5,8 @@ import "../account/AuthForm.css";
 import { DataContext } from "../contexts/DataContext";
 import FormSelectParts from "../common/FormSelectParts";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+
 const QualifyUserForm = () => {
   const { users, ministries, roles, setRoles } = useContext(DataContext);
   const initialUsers = users.map((user) => user.uId);
@@ -28,7 +30,7 @@ const QualifyUserForm = () => {
     evt.preventDefault();
     try {
       let result = await axios.post(
-        `http://127.0.0.1:3001/users/qualify/${selected.users[0]}`,
+        `${BASE_URL}/users/qualify/${selected.users[0]}`,
         selected.roles
       );
       setRoles(
